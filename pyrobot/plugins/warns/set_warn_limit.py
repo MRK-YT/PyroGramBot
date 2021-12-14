@@ -37,7 +37,7 @@ async def set_warn_mode_and_limit(client: PyroBot, msg: Message):
     elif args.isnumeric():
         input_ = int(args)
         WARN_LIMIT = input_
-        await msg.reply(f"Warn limit Updated to <u>{input_}</u> Warns.")
+        await msg.reply(f'Warn limit Updated to <u>{WARN_LIMIT}</u> Warns.')
     else:
         await msg.reply("Invalid arguments, Exiting...")
     client.warnsettingsstore[chat_id] = {

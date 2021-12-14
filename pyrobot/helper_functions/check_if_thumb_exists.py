@@ -25,9 +25,7 @@ async def is_thumb_image_exists(file_name: str):
         )
     elif file_name and file_name.upper().endswith(TL_VID_STREAM_TYPES):
         metadata = extractMetadata(createParser(file_name))
-        duration = 0
-        if metadata.has("duration"):
-            duration = metadata.get("duration").seconds
+        duration = metadata.get("duration").seconds if metadata.has("duration") else 0
         # get a random TTL from the duration
         ttl = str(random.randint(0, duration - 1))
         #
@@ -64,9 +62,7 @@ def gen_tg_thumbnail(downloaded_file_name: str) -> str:
     # https://stackoverflow.com/a/21669827/4723940
     Image.open(downloaded_file_name).convert("RGB").save(downloaded_file_name)
     metadata = extractMetadata(createParser(downloaded_file_name))
-    height = 0
-    if metadata.has("height"):
-        height = metadata.get("height")
+    height = metadata.get("height") if metadata.has("height") else 0
     # resize image
     # ref: https://t.me/PyrogramChat/44663
     img = Image.open(downloaded_file_name)

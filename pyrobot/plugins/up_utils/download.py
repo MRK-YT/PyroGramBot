@@ -57,7 +57,7 @@ async def down_load_media(client, sms):
         downloader.start(blocking=False)
         c_time = time.time()
         while not downloader.isFinished():
-            total_length = downloader.filesize if downloader.filesize else None
+            total_length = downloader.filesize or None
             downloaded = downloader.get_dl_size()
             display_message = ""
             now = time.time()
@@ -86,7 +86,6 @@ async def down_load_media(client, sms):
                     await asyncio.sleep(10)
             except Exception as e:
                 LOGGER.info(str(e))
-                pass
         if os.path.exists(download_file_path):
             end_t = datetime.now()
             ms = (end_t - start_t).seconds

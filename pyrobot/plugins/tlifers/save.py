@@ -66,9 +66,7 @@ async def save_filter(client: PyroBot, message):
 
         # construct message using the above parameters
         fwded_mesg = None
-        reply_markup = None
-        if len(buttons) > 0:
-            reply_markup = InlineKeyboardMarkup(buttons)
+        reply_markup = InlineKeyboardMarkup(buttons) if len(buttons) > 0 else None
         if data_type in (Types.BUTTON_TEXT, Types.TEXT):
             fwded_mesg = await client.send_message(
                 chat_id=TG_URI,

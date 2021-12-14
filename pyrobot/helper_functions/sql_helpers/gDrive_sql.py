@@ -33,13 +33,11 @@ def set_credential(chat_id, credential_string):
 def get_credential(chat_id):
     with INSERTION_LOCK:
         saved_cred = SESSION.query(gDriveCreds).get(chat_id)
-        creds = None
-        # The gDrive table stores the user's access and refresh tokens, and is
-        # created automatically when the authorization flow
-        # completes for the first time.
-        if saved_cred is not None:
-            creds = pickle.loads(saved_cred.credential_string)
-        return creds
+        return (
+            pickle.loads(saved_cred.credential_string)
+            if saved_cred is not None
+            else None
+        )
 
 
 def clear_credential(chat_id):

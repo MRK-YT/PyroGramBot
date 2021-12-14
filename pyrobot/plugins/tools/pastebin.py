@@ -42,14 +42,10 @@ async def paste_bin(_, message: Message):
         m_list = None
         with open(downloaded_file_name_res, "rb") as fd:
             m_list = fd.readlines()
-        downloaded_file_name = ""
-        for m in m_list:
-            downloaded_file_name += m.decode("UTF-8")
+        downloaded_file_name = "".join(m.decode("UTF-8") for m in m_list)
         os.remove(downloaded_file_name_res)
     elif message.reply_to_message:
         downloaded_file_name = message.reply_to_message.text.html
-    # elif len(message.command) > 1:
-    #     downloaded_file_name = " ".join(message.command[1:])
     else:
         await status_message.edit("എന്ത് ചെയ്യണം എന്ന് പറഞ്ഞില്ല")
         return
@@ -62,10 +58,7 @@ async def paste_bin(_, message: Message):
         "content": downloaded_file_name
     }
 
-    chosen_store = "pasty"
-    if len(message.command) == 2:
-        chosen_store = message.command[1]
-
+    chosen_store = message.command[1] if len(message.command) == 2 else "pasty"
     # get the required pastebin URI
     paste_store_ = paste_bin_store_s.get(
         chosen_store
@@ -107,7 +100,7 @@ async def paste_bin(_, message: Message):
         rkp = rk.split(".")
         for kp in rkp:
             pkr = pkr.get(kp)
-    elif not rk:
+    else:
         pkr = pkr[1:]
     required_url = paste_store_base_url + "/" + pkr
 

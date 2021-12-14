@@ -24,6 +24,8 @@ from dotenv import load_dotenv
 load_dotenv("config.env")
 
 
+
+
 class Config:
     LOGGER = True
     # The Telegram API things
@@ -60,7 +62,7 @@ class Config:
     # SuDo User
     OWNER_ID = int(os.environ.get("OWNER_ID", "7351948"))
     # Array to store users who are authorized to use the bot
-    SUDO_USERS = set(int(x) for x in os.environ.get("SUDO_USERS", "").split())
+    SUDO_USERS = {int(x) for x in os.environ.get("SUDO_USERS", "").split()}
     # the maximum number of 'selectable' messages in Telegram
     TG_MAX_SELECT_LEN = 100
     # for bakanup purposes
@@ -76,6 +78,7 @@ class Config:
         "LAYER_UPDATE_MESSAGE_CAPTION",
         None
     )
+
 
 
 class Production(Config):

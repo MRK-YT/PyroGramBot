@@ -75,8 +75,8 @@ async def youtube_dl_call_back(bot, update, cb_data):
     )
     description = "@PyroGramBot"
     if "fulltitle" in response_json:
-        description = response_json["fulltitle"][0:1021]
-        # escape Markdown and special characters
+        description = response_json["fulltitle"][:1021]
+            # escape Markdown and special characters
     #
     tmp_directory_for_each_user = os.path.join(
         TMP_DOWNLOAD_DIRECTORY,
@@ -161,15 +161,9 @@ async def youtube_dl_call_back(bot, update, cb_data):
             thumb = await is_thumb_image_exists(local_file_name)
             # caption_str = os.path.basename(local_file_name)
             metadata = extractMetadata(createParser(local_file_name))
-            duration = 0
-            artist = ""
-            title = ""
-            if metadata.has("duration"):
-                duration = metadata.get("duration").seconds
-            if metadata.has("title"):
-                title = metadata.get("title")
-            if metadata.has("artist"):
-                artist = metadata.get("artist")
+            duration = metadata.get("duration").seconds if metadata.has("duration") else 0
+            title = metadata.get("title") if metadata.has("title") else ""
+            artist = metadata.get("artist") if metadata.has("artist") else ""
             width, height = 0, 0
             if thumb is not None:
                 metadata = extractMetadata(createParser(thumb))
